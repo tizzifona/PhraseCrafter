@@ -1,9 +1,11 @@
 package femcoders.java.phrase_crafter.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import femcoders.java.phrase_crafter.model.Category;
 
 public class PhraseRequestDto {
     private String text;
+    @JsonProperty("author")
     private String authorName;
     private Category category;
 

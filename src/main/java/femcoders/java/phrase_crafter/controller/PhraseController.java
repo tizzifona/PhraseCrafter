@@ -1,7 +1,9 @@
 package femcoders.java.phrase_crafter.controller;
 
+import femcoders.java.phrase_crafter.dto.PhraseRequestDto;
 import femcoders.java.phrase_crafter.model.Phrase;
 import femcoders.java.phrase_crafter.service.PhraseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,5 +36,18 @@ public class PhraseController {
         else {
            return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createPhrase(@RequestBody PhraseRequestDto request){
+        if (!request.isValid()) {
+            return ResponseEntity.badRequest().body(request.getValidationErrors());
+        }
+
+        Phrase createdPhrase = phraseService.createPhrase(
+                request.getText().trim(),
+                request.getAuthorName().trim(),
+                request.getCategory());
+                return ResponseEntity.status(HttpStatus.CREATED).body(createdPhrase);
     }
 }
