@@ -1,6 +1,7 @@
 package femcoders.java.phrase_crafter.controller;
 
 import femcoders.java.phrase_crafter.dto.PhraseRequestDto;
+import femcoders.java.phrase_crafter.model.Category;
 import femcoders.java.phrase_crafter.model.Phrase;
 import femcoders.java.phrase_crafter.service.PhraseService;
 import org.springframework.http.HttpStatus;
@@ -78,5 +79,26 @@ public class PhraseController {
         else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<List<Phrase>> getPhrasesByCategoryIgnoreCase(@PathVariable String categoryName) {
+        List<Phrase> phrases = phraseService.getPhrasesByCategoryIgnoreCase(categoryName);
+        return ResponseEntity.ok(phrases);
+    }
+
+    @GetMapping("/author/{authorName}")
+    public ResponseEntity <List<Phrase>> getPhrasesByAuthor(@PathVariable String authorName){
+        List <Phrase> phrases = phraseService.getPhrasesByAuthor(authorName);
+        return ResponseEntity.ok(phrases);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity <List<Phrase>> getPhrasesByText(@RequestParam String text){
+        if (text== null || text.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        List <Phrase> phrases = phraseService.getPhrasesByText(text.trim());
+        return ResponseEntity.ok(phrases);
     }
 }

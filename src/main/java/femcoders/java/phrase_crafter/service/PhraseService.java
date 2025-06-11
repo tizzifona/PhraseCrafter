@@ -59,4 +59,16 @@ public class PhraseService {
         }
         return false;
     }
+
+    public List<Phrase> getPhrasesByCategoryIgnoreCase(String categoryName) {
+        return phraseRepository.findByCategoryIgnoreCase(categoryName);
+    }
+
+    public List<Phrase> getPhrasesByAuthor(String authorName) {
+        return phraseRepository.findByAuthor_NameContainingIgnoreCase(authorName);
+    }
+
+    public List <Phrase> getPhrasesByText (String searchText) {
+        return phraseRepository.findByTextContainingIgnoreCase(searchText);
+    }
 }
