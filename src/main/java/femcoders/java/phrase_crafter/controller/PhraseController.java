@@ -1,7 +1,6 @@
 package femcoders.java.phrase_crafter.controller;
 
 import femcoders.java.phrase_crafter.dto.PhraseRequestDto;
-import femcoders.java.phrase_crafter.model.Category;
 import femcoders.java.phrase_crafter.model.Phrase;
 import femcoders.java.phrase_crafter.service.PhraseService;
 import org.springframework.http.HttpStatus;
@@ -31,12 +30,7 @@ public class PhraseController {
     @GetMapping("/{id}")
     public ResponseEntity<Phrase> getPhraseById(@PathVariable Long id) {
         Optional<Phrase> phrase = phraseService.getPhraseById(id);
-        if (phrase.isPresent()) {
-            return ResponseEntity.ok(phrase.get());
-        }
-        else {
-           return ResponseEntity.notFound().build();
-        }
+        return phrase.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
