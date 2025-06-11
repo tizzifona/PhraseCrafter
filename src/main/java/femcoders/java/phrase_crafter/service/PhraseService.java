@@ -7,7 +7,6 @@ import femcoders.java.phrase_crafter.repository.AuthorRepository;
 import femcoders.java.phrase_crafter.repository.PhraseRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,5 +34,21 @@ public class PhraseService {
 
         Phrase phrase = new Phrase(text, author, category);
         return phraseRepository.save(phrase);
+    }
+
+    public Optional<Phrase> updatePhrase(Long id, String text, String authorName, Category category) {
+        return phraseRepository.findById(id)
+                .map(
+                        phrase -> {
+                            phrase.setText(text);
+                            phrase.setCategory(category);
+
+                            if (!phrase.getAuthor().getName().equals(authorName)) {
+                                Author author = authorRepository.findByName(authorName)
+                                        .orElseGet(() -> authorRepository.save(new Author(authorName)));
+                                phrase.setAuthor(author);
+                            }
+                            return phraseRepository.save(phrase);
+                        });
     }
 }
