@@ -50,4 +50,22 @@ public class PhraseController {
                 request.getCategory());
                 return ResponseEntity.status(HttpStatus.CREATED).body(createdPhrase);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePhrase(@PathVariable Long id, @RequestBody PhraseRequestDto request) {
+        if (!request.isValid()){
+            return ResponseEntity.badRequest().body(request.getValidationErrors());
+        }
+        Optional <Phrase> updatedPhrase = phraseService.updatePhrase(
+                id,
+                request.getText().trim(),
+                request.getAuthorName().trim(),
+                request.getCategory());
+        if (updatedPhrase.isPresent()) {
+            return ResponseEntity.ok(updatedPhrase.get());
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
