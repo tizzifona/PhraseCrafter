@@ -68,4 +68,15 @@ public class PhraseController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity <Void> deletePhrase(@PathVariable Long id){
+        boolean deleted = phraseService.deletePhrase(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
