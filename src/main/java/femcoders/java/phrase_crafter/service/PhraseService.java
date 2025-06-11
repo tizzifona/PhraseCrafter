@@ -51,4 +51,12 @@ public class PhraseService {
                             return phraseRepository.save(phrase);
                         });
     }
+
+    public boolean deletePhrase(Long id) {
+        if (phraseRepository.existsById(id)) {
+            phraseRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
