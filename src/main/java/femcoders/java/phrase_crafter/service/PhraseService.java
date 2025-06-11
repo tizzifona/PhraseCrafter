@@ -1,10 +1,13 @@
 package femcoders.java.phrase_crafter.service;
 
+import femcoders.java.phrase_crafter.model.Author;
+import femcoders.java.phrase_crafter.model.Category;
 import femcoders.java.phrase_crafter.model.Phrase;
 import femcoders.java.phrase_crafter.repository.AuthorRepository;
 import femcoders.java.phrase_crafter.repository.PhraseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +27,13 @@ public class PhraseService {
 
     public Optional<Phrase> getPhraseById(Long id) {
         return phraseRepository.findById(id);
+    }
+
+    public Phrase createPhrase(String text, String authorName, Category category) {
+        Author author = authorRepository.findByName(authorName)
+                .orElseGet(() -> authorRepository.save(new Author(authorName)));
+
+        Phrase phrase = new Phrase(text, author, category);
+        return phraseRepository.save(phrase);
     }
 }
