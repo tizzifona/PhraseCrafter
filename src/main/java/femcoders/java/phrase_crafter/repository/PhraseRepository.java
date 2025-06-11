@@ -17,4 +17,6 @@ public interface PhraseRepository extends JpaRepository<Phrase, Long> {
     List<Phrase> findByAuthor_NameContainingIgnoreCase(String authorName);
 
     List<Phrase> findByTextContainingIgnoreCase(String text);
+
+    boolean existsByTextIgnoreCase(String text);
 }

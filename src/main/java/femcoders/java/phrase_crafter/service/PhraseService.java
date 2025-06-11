@@ -28,7 +28,16 @@ public class PhraseService {
         return phraseRepository.findById(id);
     }
 
+    public boolean phraseTextExists(String text) {
+        return phraseRepository.existsByTextIgnoreCase(text);
+    }
+
     public Phrase createPhrase(String text, String authorName, Category category) {
+        if (phraseTextExists(text)) {
+            throw new IllegalArgumentException(
+                    "A phrase with this text already exists. Please try a different phrase.");
+        }
+
         Author author = authorRepository.findByName(authorName)
                 .orElseGet(() -> authorRepository.save(new Author(authorName)));
 
@@ -68,7 +77,7 @@ public class PhraseService {
         return phraseRepository.findByAuthor_NameContainingIgnoreCase(authorName);
     }
 
-    public List <Phrase> getPhrasesByText (String searchText) {
+    public List<Phrase> getPhrasesByText(String searchText) {
         return phraseRepository.findByTextContainingIgnoreCase(searchText);
     }
 }
