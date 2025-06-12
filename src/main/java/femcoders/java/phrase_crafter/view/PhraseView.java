@@ -22,7 +22,7 @@ public class PhraseView implements CommandLineRunner {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         System.out.println(ColorConstants.MENU_COLOR + "=================================" + ColorConstants.RESET);
         System.out.println(ColorConstants.MENU_COLOR + "  🎨 WELCOME TO PHRASE CRAFTER 📝" + ColorConstants.RESET);
         System.out.println(ColorConstants.MENU_COLOR + "=================================" + ColorConstants.RESET);
@@ -114,7 +114,7 @@ public class PhraseView implements CommandLineRunner {
             }
 
             try {
-                Long id = Long.parseLong(input);
+                long id = Long.parseLong(input);
 
                 if (id <= 0) {
                     System.out.println(ColorConstants.ERROR_COLOR + "❌ ID must be a positive number. Please try again."
@@ -308,7 +308,7 @@ public class PhraseView implements CommandLineRunner {
                     continue;
                 }
 
-                if (!phraseService.getPhraseById(id).isPresent()) {
+                if (phraseService.getPhraseById(id).isEmpty()) {
                     System.out.println(ColorConstants.ERROR_COLOR + "❌ Phrase with ID " + id
                             + " not found. Please try again." + ColorConstants.RESET);
                     continue;
