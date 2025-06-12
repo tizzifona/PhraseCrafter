@@ -34,3 +34,7 @@ build/
 
 ### Ds store ###
 .DS_Store
+
+### Environment variables ###
+.env
+
