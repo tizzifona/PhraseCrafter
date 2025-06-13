@@ -34,43 +34,41 @@ public class PhraseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPhrase(@RequestBody PhraseRequestDto request){
+    public ResponseEntity<?> createPhrase(@RequestBody PhraseRequestDto request) {
         if (!request.isValid()) {
             return ResponseEntity.badRequest().body(request.getValidationErrors());
         }
 
         Phrase createdPhrase = phraseService.createPhrase(
-                request.getText().trim(),
-                request.getAuthorName().trim(),
-                request.getCategory());
-                return ResponseEntity.status(HttpStatus.CREATED).body(createdPhrase);
+                request.text().trim(),
+                request.authorName().trim(),
+                request.category());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPhrase);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePhrase(@PathVariable Long id, @RequestBody PhraseRequestDto request) {
-        if (!request.isValid()){
+        if (!request.isValid()) {
             return ResponseEntity.badRequest().body(request.getValidationErrors());
         }
-        Optional <Phrase> updatedPhrase = phraseService.updatePhrase(
+        Optional<Phrase> updatedPhrase = phraseService.updatePhrase(
                 id,
-                request.getText().trim(),
-                request.getAuthorName().trim(),
-                request.getCategory());
+                request.text().trim(),
+                request.authorName().trim(),
+                request.category());
         if (updatedPhrase.isPresent()) {
             return ResponseEntity.ok(updatedPhrase.get());
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity <Void> deletePhrase(@PathVariable Long id){
+    public ResponseEntity<Void> deletePhrase(@PathVariable Long id) {
         boolean deleted = phraseService.deletePhrase(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -82,17 +80,17 @@ public class PhraseController {
     }
 
     @GetMapping("/author/{authorName}")
-    public ResponseEntity <List<Phrase>> getPhrasesByAuthor(@PathVariable String authorName){
-        List <Phrase> phrases = phraseService.getPhrasesByAuthor(authorName);
+    public ResponseEntity<List<Phrase>> getPhrasesByAuthor(@PathVariable String authorName) {
+        List<Phrase> phrases = phraseService.getPhrasesByAuthor(authorName);
         return ResponseEntity.ok(phrases);
     }
 
     @GetMapping("/search")
-    public ResponseEntity <List<Phrase>> getPhrasesByText(@RequestParam String text){
-        if (text== null || text.trim().isEmpty()) {
+    public ResponseEntity<List<Phrase>> getPhrasesByText(@RequestParam String text) {
+        if (text == null || text.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        List <Phrase> phrases = phraseService.getPhrasesByText(text.trim());
+        List<Phrase> phrases = phraseService.getPhrasesByText(text.trim());
         return ResponseEntity.ok(phrases);
     }
 }
