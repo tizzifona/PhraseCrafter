@@ -191,6 +191,8 @@ Display Updated Phrase
 
 ## 📊 Data Model
 
+[![temp-Image-X4cq-Bq.avif](https://i.postimg.cc/d3wMycRm/temp-Image-X4cq-Bq.avif)](https://postimg.cc/S2T1B5vJ)
+
 ### Entities
 
 #### Phrase
